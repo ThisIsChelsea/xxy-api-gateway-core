@@ -32,18 +32,18 @@ public class GenericReferenceProxyFactory {
      */
     public IGenericReference newInstance(String method) {
         return genericReferenceCache.computeIfAbsent(method, k -> {
-            // 泛化调用
+            // 创建泛化调用代理类
             GenericReferenceProxy genericReferenceProxy = new GenericReferenceProxy(genericService, method);
             // 创建接口
             InterfaceMaker interfaceMaker = new InterfaceMaker();
-            interfaceMaker.add(new Signature(method, Type.getType(String.class), new Type[]{Type.getType(String.class)}), null);
+            interfaceMaker.add(new Signature(method, Type.getType(String.class), new Type[]{Type.getType(String.class)}), null); // 给这个接口注册拿到的方法
             Class<?> interfaceCLass = interfaceMaker.create();
             // 代理对象
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(Object.class);
-            // IGenericReference 统一泛化调用接口
+            // 让这个代理对象 实现 IGenericReference 统一泛化调用接口,以及上面创建的接口
             enhancer.setInterfaces(new Class[]{IGenericReference.class, interfaceCLass});
-            enhancer.setCallback(genericReferenceProxy);
+            enhancer.setCallback(genericReferenceProxy); // 当调用代理对象的方法时，会调用这个callback
             return (IGenericReference) enhancer.create();
         });
     }

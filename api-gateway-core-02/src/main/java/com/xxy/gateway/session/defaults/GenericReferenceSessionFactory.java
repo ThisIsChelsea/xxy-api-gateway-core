@@ -27,9 +27,13 @@ public class GenericReferenceSessionFactory implements IGenericReferenceSessionF
 
     @Override
     public Future<Channel> openSession() throws ExecutionException, InterruptedException {
+        // 创建一个会话服务器
         SessionServer server = new SessionServer(configuration);
 
+        // 启动会话服务器
         Future<Channel> future = Executors.newFixedThreadPool(2).submit(server);
+
+        // 获取channel
         Channel channel = future.get();
 
         if (null == channel) throw new RuntimeException("netty server start error channel is null");

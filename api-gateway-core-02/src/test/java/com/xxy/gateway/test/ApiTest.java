@@ -26,6 +26,7 @@ public class ApiTest {
     @Test
     public void test() throws ExecutionException, InterruptedException {
         // 获取一些配置信息并封装,比如注册中心地址,服务名,方法名等....
+        // 这里写死了要调用的接口的信息，假装是从配置文件读取的
         Configuration configuration = new Configuration();
         // 注册泛化调用服务接口方法,绑定http请求和rpc方法
         configuration.addGenericReference("api-gateway-test", "cn.bugstack.gateway.rpc.IActivityBooth", "sayHi");

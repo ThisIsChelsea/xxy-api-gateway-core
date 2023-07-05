@@ -28,18 +28,21 @@ public class Configuration {
 
     public Configuration() {
         // TODO 后期从配置中获取
+        // 服务注册的相关信息
         ApplicationConfig application = new ApplicationConfig();
         application.setName("api-gateway-test");
         application.setQosEnable(false);
 
+        // 注册中心的相关信息
         RegistryConfig registry = new RegistryConfig();
         registry.setAddress("zookeeper://127.0.0.1:22181");
         registry.setRegister(false);
 
+        // 泛化调用的相关信息
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
-        reference.setInterface("cn.bugstack.gateway.rpc.IActivityBooth");
+        reference.setInterface("cn.bugstack.gateway.rpc.IActivityBooth"); // 弱类型接口名
         reference.setVersion("1.0.0");
-        reference.setGeneric("true");
+        reference.setGeneric("true"); // 声明泛化调用
 
         applicationConfigMap.put("api-gateway-test", application);
         registryConfigMap.put("api-gateway-test", registry);

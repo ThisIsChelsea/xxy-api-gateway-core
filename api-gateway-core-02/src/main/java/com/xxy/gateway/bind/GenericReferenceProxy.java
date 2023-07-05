@@ -47,6 +47,7 @@ public class GenericReferenceProxy implements MethodInterceptor {
             parameters[i] = parameterTypes[i].getName();
         }
 
+        // Dubbo的泛化调用
         // 举例：genericService.$invoke("sayHi", new String[]{"java.lang.String"}, new Object[]{"world"});
         return genericService.$invoke(methodName, parameters, args);
     }

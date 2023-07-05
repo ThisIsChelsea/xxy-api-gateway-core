@@ -40,11 +40,12 @@ public class GenericReferenceRegistry {
 
         // 构建Dubbo服务
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        // 启动Dubbo服务,dubbo会根据配置信息进行初始化，并向注册中心注册服务提供者信息，并能获取到其他服务的信息
         bootstrap.application(applicationConfig).registry(registryConfig).reference(referenceConfig).start();
 
-        // 获取泛化调用服务
+        // 获取泛化调用对象
         ReferenceConfigCache cache = ReferenceConfigCache.getCache();
-        GenericService genericService = cache.get(referenceConfig);
+        GenericService genericService = cache.get(referenceConfig); // 获取referenceConfig对应的GenericService对象
 
         // 创建并保存泛化工厂
         knownGenericReferences.put(methodName, new GenericReferenceProxyFactory(genericService));

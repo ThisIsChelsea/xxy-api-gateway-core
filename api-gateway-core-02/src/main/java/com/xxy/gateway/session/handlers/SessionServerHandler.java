@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @Author xuxinyi
  * @create 2023/7/4 16:59
- * @Description 会话服务处理器
+ * @Description 自定义的会话服务处理器
  */
 public class SessionServerHandler extends BaseHandler<FullHttpRequest> {
 
@@ -45,7 +45,9 @@ public class SessionServerHandler extends BaseHandler<FullHttpRequest> {
         DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
 
         // 服务泛化调用
+        // 假装接受的请求是sayHi方法，所以去获取到sayHi方法的泛化调用。该方法内部会生成一个代理类，然后通过反射调用方法
         IGenericReference reference = configuration.getGenericReference("sayHi");
+        // 调用方法,实际上是调用的代理类的方法,代理类内部使用了Dubbo的泛化调用
         String result = reference.$invoke("test") + " " + System.currentTimeMillis();
 
         // 设置回写数据
